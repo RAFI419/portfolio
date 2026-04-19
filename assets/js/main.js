@@ -450,7 +450,7 @@ document.querySelectorAll('.btn-mag').forEach(btn => {
     });
   });
 
-  autoCycle();
+  if (PHOTOS.length > 1) autoCycle();
   window.setPhoto = setPhoto; // expose for command palette
 })();
 
