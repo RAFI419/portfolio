@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Shaik Mohammed Rafi — Software Engineer with 4+ years in Java Backend, Full Stack, Microservices, Cloud & AI/GenAI integration."/>
+<meta name="keywords" content="Shaik Mohammed Rafi, Java Developer, Spring Boot, Microservices, AWS, Software Engineer, AI Integration"/>
+<meta name="author" content="Shaik Mohammed Rafi"/>
+
+<!-- Open Graph / Social -->
+<meta property="og:title" content="Shaik Mohammed Rafi — Software Engineer"/>
+<meta property="og:description" content="Java Backend · Full Stack · Microservices · Cloud · AI/GenAI"/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="assets/images/rafi-1.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+
+<title>Shaik Mohammed Rafi — Software Engineer · Java · Cloud · AI</title>
+
+<link rel="icon" type="image/jpeg" href="assets/images/rafi-1-thumb.jpg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="assets/css/main.css"/>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- NOISE TEXTURE -->
+<div id="noise-overlay"></div>
+
+<!-- CUSTOM CURSOR -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div id="cur-text">VIEW</div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- SPOTLIGHT -->
+<div id="spotlight"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-ring">
+    <svg viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="45" stroke="url(#lg1)" stroke-width="3"/>
+      <defs>
+        <linearGradient id="lg1" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#4f46e5"/>
+          <stop offset=".5" stop-color="#ec4899"/>
+          <stop offset="1" stop-color="#06b6d4"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="ld-initials">SMR</div>
+  </div>
+  <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
+  <div class="ld-steps">
+    <div class="ld-step" id="ls1">⚡ Initializing...</div>
+    <div class="ld-step" id="ls2">🎨 Loading assets...</div>
+    <div class="ld-step" id="ls3">🚀 Ready</div>
+  </div>
+  <div class="ld-pct" id="ld-pct">0%</div>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div id="cmd-overlay" role="dialog" aria-label="Command Palette">
+  <div id="cmd-palette">
+    <div id="cmd-input-wrap">
+      <span>⌘</span>
+      <input id="cmd-input" placeholder="Type a command or search..." autocomplete="off" spellcheck="false"/>
+      <kbd class="esc-kbd">ESC</kbd>
+    </div>
+    <div id="cmd-list"></div>
+    <div class="cmd-footer">
+      <span><kbd>↑↓</kbd> Navigate</span>
+      <span><kbd>↵</kbd> Select</span>
+      <span><kbd>ESC</kbd> Close</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-label="Photo viewer">
+  <button class="lb-close" aria-label="Close">×</button>
+  <button class="lb-prev" aria-label="Previous">‹</button>
+  <button class="lb-next" aria-label="Next">›</button>
+  <img id="lb-img" alt=""/>
+  <div class="lb-caption"></div>
+  <div class="lb-dots"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">Shaik Mohammed Rafi</div>
+  <ul class="nav-links">
+    <li><a href="#hero" data-section="hero">Home</a></li>
+    <li><a href="#skills" data-section="skills">Skills</a></li>
+    <li><a href="#experience" data-section="experience">Experience</a></li>
+    <li><a href="#projects" data-section="projects">Projects</a></li>
+    <li><a href="#ai-projects" data-section="ai-projects">AI Work</a></li>
+    <li><a href="#about" data-section="about">About</a></li>
+    <li><a href="#contact" data-section="contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button id="theme-btn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+    <button id="cmd-btn" title="Command palette (Ctrl+K)">⌘ Search <kbd>K</kbd></button>
+  </div>
+  <button id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu">
+  <a href="#hero">🏠 Home</a>
+  <a href="#skills">⚡ Skills</a>
+  <a href="#experience">💼 Experience</a>
+  <a href="#projects">🚀 Projects</a>
+  <a href="#ai-projects">🤖 AI Work</a>
+  <a href="#about">📸 About</a>
+  <a href="#education">🎓 Education</a>
+  <a href="#contact">📬 Contact</a>
+</div>
+
+<!-- SIDE DOTS -->
+<nav id="side-dots" aria-label="Section navigation">
+  <button class="side-dot active" data-target="hero" data-label="Home"></button>
+  <button class="side-dot" data-target="skills" data-label="Skills"></button>
+  <button class="side-dot" data-target="experience" data-label="Experience"></button>
+  <button class="side-dot" data-target="projects" data-label="Projects"></button>
+  <button class="side-dot" data-target="ai-projects" data-label="AI Work"></button>
+  <button class="side-dot" data-target="about" data-label="About"></button>
+  <button class="side-dot" data-target="education" data-label="Education"></button>
+  <button class="side-dot" data-target="contact" data-label="Contact"></button>
+</nav>
+
+<!-- BACK TO TOP -->
+<button id="back-top" aria-label="Back to top">↑</button>
+
+<!-- ============================================================
+     HERO — Role-aware greeting
+     ============================================================ -->
+<section id="hero">
+  <div class="sec-inner hero-grid">
+    <div class="hero-left">
+      <div class="hero-photo-col">
+        <img class="hero-photo-circle switchable-photo" src="assets/images/rafi-1-sm.jpg" alt="Shaik Mohammed Rafi"/>
+      </div>
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        <span id="hero-status">Available for new opportunities</span>
+      </div>
+      <h1 class="hero-name">Shaik<br/>Mohammed<br/>Rafi</h1>
+      <div class="hero-contact-line">
+        <span>📧</span>
+        <a href="mailto:mohammedrafi.java@gmail.com">mohammedrafi.java@gmail.com</a>
+        <span class="dot-sep">·</span>
+        <span>📱 +91 7386796653</span>
+      </div>
+      <div class="hero-typing-wrap">
+        <span id="typing-static">I build </span><span class="hero-typing" id="typing-target"></span>
+      </div>
+      <p class="hero-summary" id="hero-summary">
+        Software Engineer with <strong>4+ years</strong> crafting scalable backend systems, microservices &amp; full-stack applications using Java, Spring Boot, AWS, and now integrating <strong>AI &amp; GenAI</strong> into enterprise workflows.
+      </p>
+
+      <!-- Role Switcher — tailors content -->
+      <div class="role-switcher">
+        <div class="rs-label">Viewing as:</div>
+        <div class="rs-buttons">
+          <button class="rs-btn active" data-role="backend">Backend Engineer</button>
+          <button class="rs-btn" data-role="fullstack">Full Stack</button>
+          <button class="rs-btn" data-role="cloud">Cloud / DevOps</button>
+          <button class="rs-btn" data-role="ai">AI Engineer</button>
+        </div>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-mag btn-primary-mag"><span>💬 Let's Talk</span></a>
+        <a href="docs/resume.docx" download class="btn-mag btn-outline-mag">📄 Download Resume</a>
+        <a href="#projects" class="btn-mag btn-outline-mag">🛠 View Work</a>
+      </div>
+      <div class="hero-socials">
+        <a href="https://www.linkedin.com/in/shaik-mohammedrafi/" target="_blank" class="social-pill">🔗 LinkedIn</a>
+        <a href="https://github.com/RAFI419/" target="_blank" class="social-pill">🐙 GitHub</a>
+        <a href="https://leetcode.com/u/Rafi0419/" target="_blank" class="social-pill">⚡ LeetCode</a>
+        <a href="mailto:mohammedrafi.java@gmail.com" class="social-pill">📧 Email</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card-scene">
+        <div class="hero-orb"></div>
+        <div class="hero-ring-dashed"></div>
+        <div class="hero-card-3d tilt" id="hero-card">
+          <div class="tilt-shine"></div>
+          <img class="hero-card-photo switchable-photo" src="assets/images/rafi-1-thumb.jpg" alt="Shaik Mohammed Rafi"/>
+          <div class="hero-card-name">Mohammed Rafi</div>
+          <div class="hero-card-role" id="card-role">Software Engineer · Java &amp; Cloud</div>
+          <div class="hero-card-divider"></div>
+          <div class="hero-stats">
+            <div><div class="hstat-val"><span class="counter-num" data-target="4">0</span>+</div><div class="hstat-label">Yrs Exp</div></div>
+            <div><div class="hstat-val"><span class="counter-num" data-target="500">0</span>+</div><div class="hstat-label">LeetCode</div></div>
+            <div><div class="hstat-val"><span class="counter-num" data-target="11">0</span>+</div><div class="hstat-label">Projects</div></div>
+          </div>
+          <div class="photo-switcher">
+            <div class="photo-dot active" data-i="0"></div>
+            <div class="photo-dot" data-i="1"></div>
+            <div class="photo-dot" data-i="2"></div>
+            <div class="photo-dot" data-i="3"></div>
+          </div>
+        </div>
+        <div class="hero-float-badge hfb-1">☁️ AWS Cloud</div>
+        <div class="hero-float-badge hfb-2">🏆 Top 69 Nationally</div>
+        <div class="hero-float-badge hfb-3">🤖 AI / GenAI Ready</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" id="scroll-hint">
+    <div class="scroll-mouse"><div class="scroll-mouse-dot"></div></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE 1 -->
+<div class="marquee-section">
+  <div class="marquee-track" id="mq1"></div>
+</div>
+
+<!-- STATS BAND -->
+<section id="stats-band">
+  <div class="stats-grid sec-inner">
+    <div class="stat-card rv d1 tilt"><div class="tilt-shine"></div><div class="stat-icon">💼</div><div class="stat-val"><span class="counter-num" data-target="4">0</span>+ Yrs</div><div class="stat-label">Professional Experience</div></div>
+    <div class="stat-card rv d2 tilt"><div class="tilt-shine"></div><div class="stat-icon">⚡</div><div class="stat-val"><span class="counter-num" data-target="500">0</span>+</div><div class="stat-label">Coding Problems Solved</div></div>
+    <div class="stat-card rv d3 tilt"><div class="tilt-shine"></div><div class="stat-icon">🏆</div><div class="stat-val">Top <span class="counter-num" data-target="69">0</span></div><div class="stat-label">National CodeKaze Rank</div></div>
+    <div class="stat-card rv d4 tilt"><div class="tilt-shine"></div><div class="stat-icon">🚀</div><div class="stat-val"><span class="counter-num" data-target="40">0</span>% Faster</div><div class="stat-label">CI/CD Pipeline Gains</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee-section"><div class="marquee-track reverse" id="mq2"></div></div>
+
+<!-- ============================================================
+     SKILLS — data-driven, populated by JS
+     ============================================================ -->
+<section id="skills">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv">Expertise</div>
+    <h2 class="sec-title rv">Technical <em>Skills</em></h2>
+    <div class="skills-grid">
+      <div class="skill-bars rv-l" id="skill-bars-container"></div>
+      <div class="rv-r">
+        <div class="chips-title">Technology Stack</div>
+        <div class="chip-cloud" id="chip-cloud-container"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCE
+     ============================================================ -->
+<section id="experience">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv">Career</div>
+    <h2 class="sec-title rv">Work <em>Experience</em></h2>
+    <div class="timeline" id="timeline-container"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECTS — data-driven
+     ============================================================ -->
+<section id="projects">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv">Portfolio</div>
+    <h2 class="sec-title rv">Featured <em>Projects</em></h2>
+    <div class="projects-grid" id="projects-container"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     AI & GenAI PROJECTS — NEW SECTION
+     ============================================================ -->
+<section id="ai-projects">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv" style="color:#a78bfa">Innovation</div>
+    <h2 class="sec-title rv">AI &amp; GenAI <em>Projects</em></h2>
+    <p class="section-intro rv">Leveraging Large Language Models, RAG architectures, and ML pipelines to transform enterprise workflows.</p>
+    <div class="projects-grid" id="ai-projects-container"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HIGHLIGHTS
+     ============================================================ -->
+<section id="highlights">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv">Core Strengths</div>
+    <h2 class="sec-title rv">What I <em>Bring</em></h2>
+    <div class="highlights-grid" id="highlights-container"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT — Photo Gallery
+     ============================================================ -->
+<section id="about">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv">About Me</div>
+    <h2 class="sec-title rv">In Real <em>Life</em></h2>
+    <p class="section-intro rv">A software engineer who believes in craftsmanship, continuous learning, and shipping real value. Based in India, working on enterprise-scale systems.</p>
+    <div class="gallery-section" id="gallery-container"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EDUCATION & ACHIEVEMENTS
+     ============================================================ -->
+<section id="education">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv">Academic</div>
+    <h2 class="sec-title rv">Education &amp; <em>Achievements</em></h2>
+    <div class="edu-grid rv">
+      <div class="edu-card tilt">
+        <div class="tilt-shine"></div>
+        <div class="edu-degree">B.Tech — Electronics &amp; Communication Engineering</div>
+        <div class="edu-inst">Narasaraopet Institute of Technology, Narasaraopet</div>
+        <div class="edu-year">📅 July 2016 – October 2020</div>
+        <div class="chip-cloud">
+          <span class="chip ci mini">Electronics</span>
+          <span class="chip cp mini">Communication</span>
+          <span class="chip cc mini">Engineering</span>
+          <span class="chip ca mini">Signal Processing</span>
+        </div>
+      </div>
+      <div class="edu-card tilt">
+        <div class="tilt-shine"></div>
+        <div class="edu-degree">Language Proficiency</div>
+        <div class="edu-inst">Multilingual professional</div>
+        <div class="edu-year">4 Languages</div>
+        <div class="lang-row" id="lang-container"></div>
+      </div>
+    </div>
+    <div class="ach-list" id="ach-container"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT + Form with JS backend
+     ============================================================ -->
+<section id="contact">
+  <div class="sec-inner">
+    <div class="sec-eyebrow rv">Let's Connect</div>
+    <h2 class="sec-title rv">Get In <em>Touch</em></h2>
+    <div class="contact-layout">
+      <div class="contact-cards rv-l">
+        <div class="contact-card"><div class="ci-icon ci-i">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:mohammedrafi.java@gmail.com">mohammedrafi.java@gmail.com</a></div></div></div>
+        <div class="contact-card"><div class="ci-icon ci-p">📱</div><div><div class="ci-lbl">Phone</div><div class="ci-val">+91 7386796653</div></div></div>
+        <div class="contact-card"><div class="ci-icon ci-c">📍</div><div><div class="ci-lbl">Location</div><div class="ci-val">India · Open to Remote</div></div></div>
+        <div class="contact-card"><div class="ci-icon ci-a">✅</div><div><div class="ci-lbl">Status</div><div class="ci-val">Open to new opportunities</div></div></div>
+        <div class="contact-right-mini">
+          <div class="ripple-wrap">
+            <div class="rpl"></div><div class="rpl"></div><div class="rpl"></div>
+            <img class="contact-real-photo switchable-photo" src="assets/images/rafi-1-sm.jpg" alt="Shaik Mohammed Rafi"/>
+          </div>
+          <div class="photo-switcher mini-sw">
+            <div class="photo-dot active" data-i="0"></div>
+            <div class="photo-dot" data-i="1"></div>
+            <div class="photo-dot" data-i="2"></div>
+            <div class="photo-dot" data-i="3"></div>
+          </div>
+        </div>
+      </div>
+      <form id="contact-form" class="contact-form rv-r" novalidate>
+        <h3 class="form-title">Send a message</h3>
+        <p class="form-sub">I'll get back to you within 24 hours.</p>
+        <div class="form-field">
+          <label for="cf-name">Your Name <span class="req">*</span></label>
+          <input id="cf-name" name="name" type="text" required minlength="2" maxlength="60"/>
+          <div class="form-error" id="err-name"></div>
+        </div>
+        <div class="form-field">
+          <label for="cf-email">Your Email <span class="req">*</span></label>
+          <input id="cf-email" name="email" type="email" required/>
+          <div class="form-error" id="err-email"></div>
+        </div>
+        <div class="form-field">
+          <label for="cf-subject">Subject</label>
+          <input id="cf-subject" name="subject" type="text" maxlength="100" placeholder="What's this about?"/>
+        </div>
+        <div class="form-field">
+          <label for="cf-message">Message <span class="req">*</span></label>
+          <textarea id="cf-message" name="message" rows="5" required minlength="10" maxlength="1000"></textarea>
+          <div class="form-meta"><span id="cf-count">0</span> / 1000</div>
+          <div class="form-error" id="err-message"></div>
+        </div>
+        <button type="submit" class="btn-mag btn-primary-mag form-submit">
+          <span id="submit-text">🚀 Send Message</span>
+        </button>
+        <div class="form-note">This sends via your default email app — no server required.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2024 Shaik Mohammed Rafi · Built with <span class="footer-heart">♥</span> · HTML · CSS · JS · Python · Node</div>
+  <div class="footer-right">
+    <a href="https://www.linkedin.com/in/shaik-mohammedrafi/" target="_blank">LinkedIn</a>
+    <a href="https://github.com/RAFI419/" target="_blank">GitHub</a>
+    <a href="https://leetcode.com/u/Rafi0419/" target="_blank">LeetCode</a>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

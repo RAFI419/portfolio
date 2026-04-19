@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/contact.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/api/contact", "dest": "api/contact.py" },
+    { "src": "/api/health", "dest": "api/contact.py" }
+  ]
+}

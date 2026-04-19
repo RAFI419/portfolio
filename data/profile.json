@@ -1,0 +1,33 @@
+{
+  "profile": {
+    "name": "Shaik Mohammed Rafi",
+    "title": "Software Engineer",
+    "tagline": "Java Backend · Full Stack · Cloud · AI",
+    "email": "mohammedrafi.java@gmail.com",
+    "phone": "+91 7386796653",
+    "location": "India",
+    "availability": "Open to new opportunities",
+    "links": {
+      "linkedin": "https://www.linkedin.com/in/shaik-mohammedrafi/",
+      "github": "https://github.com/RAFI419/",
+      "leetcode": "https://leetcode.com/u/Rafi0419/"
+    }
+  },
+  "stats": {
+    "years_experience": 4,
+    "leetcode_solved": 500,
+    "codekaze_rank": 69,
+    "cicd_improvement_pct": 40
+  },
+  "education": {
+    "degree": "B.Tech in Electronics & Communication Engineering",
+    "institution": "Narasaraopet Institute of Technology, Narasaraopet",
+    "dates": "July 2016 – October 2020"
+  },
+  "languages": [
+    { "name": "English", "level": "Fluent" },
+    { "name": "Urdu", "level": "Native" },
+    { "name": "Hindi", "level": "Fluent" },
+    { "name": "Telugu", "level": "Native" }
+  ]
+}
