@@ -4,9 +4,6 @@
 
 const PHOTOS = [
   { src: 'assets/images/rafi-3.jpg',    sm: 'assets/images/rafi-3-sm.jpg',    thumb: 'assets/images/rafi-3-thumb.jpg',    label: 'Professional',       caption: 'Corporate professional attire' },
-  { src: 'assets/images/rafi-2.jpg',    sm: 'assets/images/rafi-2-sm.jpg',    thumb: 'assets/images/rafi-2-thumb.jpg',    label: 'LinkedIn Profile',   caption: 'Professional headshot' },
-  { src: 'assets/images/rafi-4.jpg',    sm: 'assets/images/rafi-4-sm.jpg',    thumb: 'assets/images/rafi-4-thumb.jpg',    label: 'Formal Portrait',    caption: 'Formal portrait' },
-  { src: 'assets/images/rafi-1.jpg',    sm: 'assets/images/rafi-1-sm.jpg',    thumb: 'assets/images/rafi-1-thumb.jpg',    label: 'At the Office',     caption: 'Working on enterprise Java microservices' },
 ];
 
 // Role-aware content — switches with the Role Switcher in hero
