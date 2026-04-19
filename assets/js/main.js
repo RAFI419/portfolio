@@ -438,7 +438,9 @@ document.querySelectorAll('.btn-mag').forEach(btn => {
   }
 
   function autoCycle() {
-    autoTimer = setInterval(() => setPhoto((cur+1) % PHOTOS.length), 4500);
+    if (PHOTOS.length > 1) {
+      autoTimer = setInterval(() => setPhoto((cur+1) % PHOTOS.length), 4500);
+    }
   }
   function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
 
@@ -450,7 +452,7 @@ document.querySelectorAll('.btn-mag').forEach(btn => {
     });
   });
 
-  if (PHOTOS.length > 1) autoCycle();
+  autoCycle();
   window.setPhoto = setPhoto; // expose for command palette
 })();
 
