@@ -260,7 +260,7 @@ function render() {
   `).join('');
 
   // Gallery
-  document.getElementById('gallery-container').innerHTML = PHOTOS.map((p, i) => `
+  document.getElementById('gallery-container').innerHTML = GALLERY_PHOTOS.map((p, i) => `
     <div class="gallery-card tilt" data-i="${i}">
       <img src="${p.src}" alt="${p.label}" loading="lazy"/>
       <div class="gallery-card-label">${p.label}</div>
@@ -464,13 +464,13 @@ document.querySelectorAll('.btn-mag').forEach(btn => {
   const lbDots = lb.querySelector('.lb-dots');
   let lbIdx = 0;
 
-  lbDots.innerHTML = PHOTOS.map((_, i) => `<div class="photo-dot" data-i="${i}"></div>`).join('');
+  lbDots.innerHTML = GALLERY_PHOTOS.map((_, i) => `<div class="photo-dot" data-i="${i}"></div>`).join('');
 
   function show(i) {
-    lbIdx = (i + PHOTOS.length) % PHOTOS.length;
-    lbImg.src = PHOTOS[lbIdx].src;
-    lbImg.alt = PHOTOS[lbIdx].label;
-    lbCaption.textContent = PHOTOS[lbIdx].caption;
+    lbIdx = (i + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length;
+    lbImg.src = GALLERY_PHOTOS[lbIdx].src;
+    lbImg.alt = GALLERY_PHOTOS[lbIdx].label;
+    lbCaption.textContent = GALLERY_PHOTOS[lbIdx].caption;
     lbDots.querySelectorAll('.photo-dot').forEach((d, i) => d.classList.toggle('active', i === lbIdx));
   }
 
