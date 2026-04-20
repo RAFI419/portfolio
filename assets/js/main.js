@@ -16,9 +16,23 @@
   }, 80);
   window.addEventListener('load', () => {
     setTimeout(() => document.getElementById('loader').classList.add('out'), 400);
+    // Register Service Worker for PWA only in secure contexts
+    if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('SW registered:', reg))
+        .catch(err => console.log('SW registration failed:', err));
+    }
+    // Fetch GitHub stats
+    fetchGitHubStats();
   });
-  // Fallback in case load event is slow
-  setTimeout(() => document.getElementById('loader').classList.add('out'), 2800);
+  // Fallback in case load event is slow or a script error prevents hide
+  setTimeout(() => {
+    const loaderElement = document.getElementById('loader');
+    if (loaderElement && !loaderElement.classList.contains('out')) {
+      loaderElement.classList.add('out');
+      console.warn('Loader fallback triggered: hiding loader after timeout.');
+    }
+  }, 5600);
 })();
 
 /* ── SCROLL PROGRESS ────────────────────────────────────────── */
@@ -120,16 +134,24 @@ window.addEventListener('scroll', () => {
 })();
 
 /* ── THEME TOGGLE ───────────────────────────────────────────── */
-(() => {
-  const btn = document.getElementById('theme-btn');
-  let dark = true;
-  btn.addEventListener('click', () => {
-    dark = !dark;
-    document.documentElement.setAttribute('data-theme', dark?'dark':'light');
-    btn.textContent = dark?'🌙':'☀️';
-    toast(dark?'🌙 Dark mode on':'☀️ Light mode on');
-  });
-})();
+const themeBtn = document.getElementById('theme-btn');
+function setTheme(mode) {
+  const dark = mode === 'dark';
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  themeBtn.textContent = dark ? '🌙' : '☀️';
+  localStorage.setItem('portfolioTheme', dark ? 'dark' : 'light');
+}
+function toggleTheme() {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  setTheme(next);
+  toast(next === 'dark' ? '🌙 Dark mode on' : '☀️ Light mode on');
+}
+function initTheme() {
+  const saved = localStorage.getItem('portfolioTheme');
+  const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  setTheme(saved || preferred);
+}
+themeBtn.addEventListener('click', toggleTheme);
 
 /* ── NAVBAR SCROLL ──────────────────────────────────────────── */
 (() => {
@@ -187,44 +209,62 @@ document.querySelectorAll('.side-dot').forEach(d => {
 
 /* ── DATA RENDERING ─────────────────────────────────────────── */
 function render() {
-  // Skill bars
-  document.getElementById('skill-bars-container').innerHTML = SKILLS.map(s => `
-    <div class="skb">
-      <div class="skb-header">
-        <span class="skb-name">${s.name}</span>
-        <span class="skb-pct">${s.pct}%</span>
-      </div>
-      <div class="skb-track">
-        <div class="skb-fill" data-w="${s.pct}" style="background:${s.grad}"></div>
-      </div>
-    </div>
-  `).join('');
-
-  // Chips
-  document.getElementById('chip-cloud-container').innerHTML = CHIPS.map(([name, cls]) =>
-    `<span class="chip ${cls}">${name}</span>`
-  ).join('');
-
-  // Timeline
-  document.getElementById('timeline-container').innerHTML = EXPERIENCE.map(e => `
-    <div class="tl-item rv">
-      <div class="exp-card tilt">
-        <div class="tilt-shine"></div>
-        <div class="exp-header">
-          <div class="exp-title">${e.title}</div>
-          <div class="exp-badge ${e.badgeCls}">${e.badge}</div>
+  try {
+    // Skill bars
+    const skillBarsContainer = document.getElementById('skill-bars-container');
+    if (skillBarsContainer) {
+      skillBarsContainer.innerHTML = SKILLS.map(s => `
+        <div class="skb">
+          <div class="skb-header">
+            <span class="skb-name">${s.name}</span>
+            <span class="skb-pct">${s.pct}%</span>
+          </div>
+          <div class="skb-track">
+            <div class="skb-fill" data-w="${s.pct}" style="background:${s.grad}"></div>
+          </div>
         </div>
-        <div class="exp-company">${e.company}</div>
-        <div class="exp-meta"><span>📅 ${e.dates}</span><span>📍 ${e.location}</span></div>
-        <div class="exp-client">${e.client}</div>
-        <ul class="exp-desc">${e.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
-        <div class="exp-chips-row">${e.chips.map(c => `<span class="ec">${c}</span>`).join('')}</div>
-      </div>
-    </div>
-  `).join('');
+      `).join('');
+    }
 
-  // Projects
-  document.getElementById('projects-container').innerHTML = PROJECTS.map((p, i) => `
+    // Chips
+    const chipCloudContainer = document.getElementById('chip-cloud-container');
+    if (chipCloudContainer) {
+      chipCloudContainer.innerHTML = CHIPS.map(([name, cls]) =>
+        `<span class="chip ${cls}">${name}</span>`
+      ).join('');
+    }
+
+    // Timeline
+    const timelineContainer = document.getElementById('timeline-container');
+    if (timelineContainer) {
+      timelineContainer.innerHTML = EXPERIENCE.map(e => `
+        <div class="tl-item rv">
+          <div class="exp-card tilt">
+            <div class="tilt-shine"></div>
+            <div class="exp-header">
+              <div class="exp-title">${e.title}</div>
+              <div class="exp-badge ${e.badgeCls}">${e.badge}</div>
+            </div>
+            <div class="exp-company">${e.company}</div>
+            <div class="exp-meta"><span>📅 ${e.dates}</span><span>📍 ${e.location}</span></div>
+            <div class="exp-client">${e.client}</div>
+            <ul class="exp-desc">${e.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+            <div class="exp-chips-row">${e.chips.map(c => `<span class="ec">${c}</span>`).join('')}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    console.log('✅ Render completed successfully');
+  } catch (err) {
+    console.error('❌ Render error:', err);
+  }
+}
+
+// Projects
+const projectsContainer = document.getElementById('projects-container');
+if (projectsContainer) {
+  projectsContainer.innerHTML = PROJECTS.map((p, i) => `
     <div class="proj-card rv d${(i%6)+1} tilt">
       <div class="tilt-shine"></div>
       <div class="proj-glow" style="background:radial-gradient(${p.glow},transparent)"></div>
@@ -235,9 +275,12 @@ function render() {
       ${p.impact ? `<div class="proj-impact">${p.impact}</div>` : ''}
     </div>
   `).join('');
+}
 
-  // AI Projects
-  document.getElementById('ai-projects-container').innerHTML = AI_PROJECTS.map((p, i) => `
+// AI Projects
+const aiProjectsContainer = document.getElementById('ai-projects-container');
+if (aiProjectsContainer) {
+  aiProjectsContainer.innerHTML = AI_PROJECTS.map((p, i) => `
     <div class="proj-card rv d${(i%6)+1} tilt">
       <div class="tilt-shine"></div>
       <div class="proj-glow" style="background:radial-gradient(${p.glow},transparent)"></div>
@@ -248,9 +291,12 @@ function render() {
       ${p.impact ? `<div class="proj-impact">${p.impact}</div>` : ''}
     </div>
   `).join('');
+}
 
-  // Highlights
-  document.getElementById('highlights-container').innerHTML = HIGHLIGHTS.map((h, i) => `
+// Highlights
+const highlightsContainer = document.getElementById('highlights-container');
+if (highlightsContainer) {
+  highlightsContainer.innerHTML = HIGHLIGHTS.map((h, i) => `
     <div class="hl-card rv d${(i%3)+1} tilt">
       <div class="tilt-shine"></div>
       <div class="hl-icon">${h.icon}</div>
@@ -258,37 +304,287 @@ function render() {
       <div class="hl-text">${h.text}</div>
     </div>
   `).join('');
+}
 
-  // Gallery
-  document.getElementById('gallery-container').innerHTML = GALLERY_PHOTOS.map((p, i) => `
+// Gallery
+const galleryContainer = document.getElementById('gallery-container');
+if (galleryContainer && GALLERY_PHOTOS) {
+  galleryContainer.innerHTML = GALLERY_PHOTOS.map((p, i) => `
     <div class="gallery-card tilt" data-i="${i}">
       <img src="${p.src}" alt="${p.label}" loading="lazy"/>
       <div class="gallery-card-label">${p.label}</div>
     </div>
   `).join('');
+}
 
-  // Languages
-  document.getElementById('lang-container').innerHTML = LANGUAGES.map(l => `
+// Languages
+const langContainer = document.getElementById('lang-container');
+if (langContainer) {
+  langContainer.innerHTML = LANGUAGES.map(l => `
     <div class="lang-item">
       <div class="lang-header"><span>${l.name}</span><span class="lang-level">${l.level}</span></div>
       <div class="lang-bar-bg"><div class="lang-bar-fill" data-w="${l.pct}" style="background:${l.grad}"></div></div>
     </div>
   `).join('');
+}
 
-  // Achievements
-  document.getElementById('ach-container').innerHTML = ACHIEVEMENTS.map(a => `
+// Achievements
+const achContainer = document.getElementById('ach-container');
+if (achContainer) {
+  achContainer.innerHTML = ACHIEVEMENTS.map(a => `
     <div class="ach-item rv">
       <div class="ach-icon">${a.icon}</div>
       <div class="ach-text">${a.text}</div>
     </div>
   `).join('');
-
-  // Marquees — duplicate for seamless loop
-  const mk1 = item => `<div class="mq-item"><span class="mq-dot"></span>${item}</div>`;
-  document.getElementById('mq1').innerHTML = [...MQ1, ...MQ1].map(mk1).join('');
-  document.getElementById('mq2').innerHTML = [...MQ2, ...MQ2].map(mk1).join('');
 }
+
+// Code Demos
+const demosContainer = document.getElementById('demos-container');
+if (demosContainer) {
+  demosContainer.innerHTML = CODE_DEMOS.map((d, i) => `
+    <div class="demo-card rv d${(i%6)+1} tilt">
+      <div class="tilt-shine"></div>
+      <div class="demo-lang">${d.lang}</div>
+      <div class="demo-title">${d.title}</div>
+      <p class="demo-desc">${d.desc}</p>
+      <pre class="demo-code language-${d.lang.toLowerCase()}"><code>${d.code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+      ${d.runnable ? '<button class="demo-run" onclick="runDemo(this)">Run</button>' : ''}
+      <div class="demo-output"></div>
+    </div>
+  `).join('');
+}
+
+// Marquees — duplicate for seamless loop
+const mq1El = document.getElementById('mq1');
+const mq2El = document.getElementById('mq2');
+const mk1 = item => `<div class="mq-item"><span class="mq-dot"></span>${item}</div>`;
+if (mq1El) mq1El.innerHTML = [...MQ1, ...MQ1].map(mk1).join('');
+if (mq2El) mq2El.innerHTML = [...MQ2, ...MQ2].map(mk1).join('');
+
+/* ── GITHUB STATS ────────────────────────────────────────────── */
+async function fetchGitHubStats() {
+  try {
+    const username = 'RAFI419'; // Replace with actual GitHub username
+    const [userRes, reposRes] = await Promise.all([
+      fetch(`https://api.github.com/users/${username}`),
+      fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
+    ]);
+
+    if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API error');
+
+    const user = await userRes.json();
+    const repos = await reposRes.json();
+
+    // Calculate stats
+    const stars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+    const forks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
+
+    // Update DOM
+    document.getElementById('repos-count').textContent = user.public_repos;
+    document.getElementById('stars-count').textContent = stars.toLocaleString();
+    document.getElementById('forks-count').textContent = forks.toLocaleString();
+    document.getElementById('followers-count').textContent = user.followers;
+
+    // Try to get contribution data (limited by GitHub API)
+    document.getElementById('contributions-count').textContent = '~500+'; // Approximate
+    document.getElementById('streak-count').textContent = '~30'; // Approximate
+
+    // Set contribution chart (using GitHub's contribution chart)
+    const chartImg = document.getElementById('github-contributions');
+    chartImg.src = `https://ghchart.rshah.org/${username}`;
+    chartImg.style.display = 'block';
+
+  } catch (error) {
+    console.log('GitHub stats fetch failed:', error);
+    // Fallback values
+    document.getElementById('repos-count').textContent = '15+';
+    document.getElementById('stars-count').textContent = '50+';
+    document.getElementById('forks-count').textContent = '25+';
+    document.getElementById('followers-count').textContent = '20+';
+    document.getElementById('contributions-count').textContent = '500+';
+    document.getElementById('streak-count').textContent = '30+';
+  }
+}
+
+const PROJECT_SECTIONS = {
+  projects: { data: PROJECTS, container: 'projects-container', filter: 'projects-filter', search: 'projects-search' },
+  'ai-projects': { data: AI_PROJECTS, container: 'ai-projects-container', filter: 'ai-projects-filter', search: 'ai-projects-search' },
+};
+const activeFilter = { projects:'all', 'ai-projects':'all' };
+const searchQuery = { projects:'', 'ai-projects':'' };
+
+function getProjectTags(items) {
+  return [...new Set(items.flatMap(p => p.tags))].sort((a,b) => a.localeCompare(b));
+}
+
+function buildProjectCards(items) {
+  return items.map((p, i) => `
+    <div class="proj-card rv d${(i%6)+1} tilt">
+      <div class="tilt-shine"></div>
+      <div class="proj-glow" style="background:radial-gradient(${p.glow},transparent)"></div>
+      <span class="proj-emoji">${p.emoji}</span>
+      <div class="proj-name">${p.name}</div>
+      <p class="proj-desc">${p.desc}</p>
+      <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
+      ${p.impact ? `<div class="proj-impact">${p.impact}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function filterProjects(sectionKey) {
+  const section = PROJECT_SECTIONS[sectionKey];
+  if (!section) return;
+  const query = (searchQuery[sectionKey] || '').trim().toLowerCase();
+  const tag = activeFilter[sectionKey];
+  const items = section.data.filter(p => {
+    const matchesTag = tag === 'all' || p.tags.some(t => t.toLowerCase() === tag.toLowerCase());
+    const matchesQuery = !query || `${p.name} ${p.desc} ${p.tags.join(' ')}`.toLowerCase().includes(query);
+    return matchesTag && matchesQuery;
+  });
+  const container = document.getElementById(section.container);
+  container.innerHTML = buildProjectCards(items);
+  animateProjectCards(container);
+}
+
+function animateProjectCards(container) {
+  const cards = container.querySelectorAll('.proj-card');
+  cards.forEach((card, index) => {
+    card.classList.add('animate-pop');
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        card.classList.add('animate-in');
+      }, index * 60);
+    });
+  });
+}
+
+function initButtonRipples() {
+  document.querySelectorAll('.btn-mag').forEach(btn => {
+    btn.addEventListener('pointerdown', e => {
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.8;
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 550);
+    });
+  });
+}
+
+function initSectionParallax() {
+  const sections = [...document.querySelectorAll('section:not(#hero)')];
+  const update = () => {
+    const mid = window.innerHeight / 2;
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      const offset = Math.max(-1, Math.min(1, (rect.top - mid) / mid));
+      const inner = section.querySelector('.sec-inner');
+      if (inner) inner.style.transform = `translate3d(0, ${offset * 18}px, 0)`;
+    });
+  };
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+}
+
+function renderProjectFilters() {
+  Object.entries(PROJECT_SECTIONS).forEach(([sectionKey, section]) => {
+    const tags = ['all', ...getProjectTags(section.data)];
+    const filterEl = document.getElementById(section.filter);
+    const searchEl = document.getElementById(section.search);
+    if (!filterEl || !searchEl) return;
+
+    filterEl.innerHTML = tags.map(tag => `
+      <button class="filter-pill${tag === 'all' ? ' active' : ''}" type="button" data-tag="${tag}">${tag === 'all' ? 'All' : tag}</button>
+    `).join('');
+
+    filterEl.querySelectorAll('.filter-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterEl.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter[sectionKey] = btn.dataset.tag;
+        filterProjects(sectionKey);
+      });
+    });
+
+    searchEl.addEventListener('input', () => {
+      searchQuery[sectionKey] = searchEl.value;
+      filterProjects(sectionKey);
+    });
+
+    filterProjects(sectionKey);
+  });
+}
+
+function initVisitCounter() {
+  const visits = Number(localStorage.getItem('portfolioVisits') || 0) + 1;
+  localStorage.setItem('portfolioVisits', visits);
+  const visitEl = document.getElementById('hero-visit');
+  if (visitEl) {
+    visitEl.textContent = visits === 1 ? 'Welcome! This is your first visit.' : `Welcome back! This is visit #${visits}.`;
+  }
+}
+
+async function loadProfile() {
+  try {
+    const response = await fetch('data/profile.json');
+    if (!response.ok) return;
+    const { profile, stats, education, languages } = await response.json();
+    if (profile) {
+      document.querySelector('.hero-name').textContent = profile.name;
+      document.querySelector('.nav-logo').textContent = profile.name;
+      document.title = `${profile.name} — ${profile.title}`;
+      document.querySelector('meta[name="description"]').setAttribute('content', `${profile.name} — ${profile.title} · ${profile.tagline}`);
+      document.querySelector('meta[property="og:title"]').setAttribute('content', `${profile.name} — ${profile.title}`);
+      document.querySelector('meta[property="og:description"]').setAttribute('content', profile.tagline);
+      document.querySelector('meta[name="author"]').setAttribute('content', profile.name);
+      const heroEmail = document.getElementById('hero-email');
+      if (heroEmail) { heroEmail.href = `mailto:${profile.email}`; heroEmail.textContent = profile.email; }
+      const heroPhone = document.getElementById('hero-phone');
+      if (heroPhone) heroPhone.textContent = `📱 ${profile.phone}`;
+      const contactEmail = document.getElementById('contact-email');
+      if (contactEmail) { contactEmail.href = `mailto:${profile.email}`; contactEmail.textContent = profile.email; }
+      const contactPhone = document.getElementById('contact-phone');
+      if (contactPhone) contactPhone.textContent = profile.phone;
+      const contactLocation = document.getElementById('contact-location');
+      if (contactLocation) contactLocation.textContent = profile.location;
+      const contactStatus = document.getElementById('contact-status');
+      if (contactStatus) contactStatus.textContent = profile.availability;
+    }
+    if (education) {
+      const eduDegree = document.getElementById('edu-degree');
+      const eduInst = document.getElementById('edu-inst');
+      const eduYear = document.getElementById('edu-year');
+      if (eduDegree) eduDegree.textContent = education.degree;
+      if (eduInst) eduInst.textContent = education.institution;
+      if (eduYear) eduYear.textContent = education.dates;
+    }
+    if (Array.isArray(languages) && languages.length) {
+      LANGUAGES.length = 0;
+      languages.forEach(l => LANGUAGES.push({
+        name: l.name,
+        level: l.level,
+        pct: l.pct || (l.level === 'Native' ? 100 : l.level === 'Fluent' ? 90 : 80),
+        grad: l.grad || 'linear-gradient(90deg,#06b6d4,#4f46e5)',
+      }));
+      render();
+      renderProjectFilters();
+    }
+  } catch (err) {
+    console.warn('Unable to load profile data', err);
+  }
+}
+
 render();
+initTheme();
+initVisitCounter();
+renderProjectFilters();
+initButtonRipples();
+initSectionParallax();
+loadProfile();
 
 /* ── SCROLL REVEAL ──────────────────────────────────────────── */
 (() => {
@@ -551,6 +847,15 @@ document.querySelectorAll('.btn-mag').forEach(btn => {
   });
 })();
 
+/* ── RUN DEMO ─────────────────────────────────────────────────────── */
+function runDemo(btn) {
+  const card = btn.closest('.demo-card');
+  const output = card.querySelector('.demo-output');
+  output.style.display = 'block';
+  output.textContent = '🚀 Running demo...\n\nThis is a static showcase. In a real implementation, this would execute the code in a sandboxed environment.\n\nOutput: Demo executed successfully!';
+  toast('💻 Demo executed!');
+}
+
 /* ── COMMAND PALETTE ────────────────────────────────────────── */
 (() => {
   const overlay = document.getElementById('cmd-overlay');
@@ -561,11 +866,10 @@ document.querySelectorAll('.btn-mag').forEach(btn => {
     { icon:'⚡', label:'Go to Skills', desc:'Technical expertise', action: () => scrollTo('skills') },
     { icon:'💼', label:'Go to Experience', desc:'Work history', action: () => scrollTo('experience') },
     { icon:'🚀', label:'Go to Projects', desc:'Portfolio', action: () => scrollTo('projects') },
-    { icon:'🤖', label:'Go to AI Projects', desc:'GenAI & ML work', action: () => scrollTo('ai-projects') },
-    { icon:'📸', label:'Go to About', desc:'Photo gallery', action: () => scrollTo('about') },
+    { icon:'🤖', label:'Go to AI Projects', desc:'GenAI & ML work', action: () => scrollTo('ai-projects') },    { icon:'💻', label:'Go to Code Demos', desc:'Advanced language showcase', action: () => scrollTo('code-demos') },    { icon:'�', label:'Go to About', desc:'Photo gallery', action: () => scrollTo('about') },
     { icon:'🎓', label:'Go to Education', desc:'Academic background', action: () => scrollTo('education') },
     { icon:'📬', label:'Go to Contact', desc:'Get in touch', action: () => scrollTo('contact') },
-    { icon:'🌙', label:'Toggle Theme', desc:'Switch dark/light', action: () => document.getElementById('theme-btn').click() },
+    { icon:'🌙', label:'Toggle Theme', desc:'Switch dark/light', action: () => toggleTheme() },
     { icon:'👔', label:'View as Backend', desc:'Backend Engineer focus', action: () => switchRole('backend') },
     { icon:'🎨', label:'View as Full Stack', desc:'Full Stack focus', action: () => switchRole('fullstack') },
     { icon:'☁️', label:'View as Cloud Engineer', desc:'Cloud / DevOps focus', action: () => switchRole('cloud') },

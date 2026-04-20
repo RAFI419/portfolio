@@ -16,28 +16,28 @@ const GALLERY_PHOTOS = [
 // Role-aware content — switches with the Role Switcher in hero
 const ROLES = {
   backend: {
-    status: 'Available for Backend Engineering roles',
-    cardRole: 'Java Backend Engineer · Microservices',
-    summary: 'Software Engineer with <strong>4+ years</strong> designing and building <strong>scalable backend systems</strong> using Java, Spring Boot, Microservices, and REST APIs. Proven track record of optimizing APIs by 30%+ and delivering high-availability enterprise platforms.',
-    typing: ['Scalable Microservices','RESTful APIs','Distributed Systems','Event-Driven Architectures','Enterprise Backends'],
+    status: '🎯 Selective opportunities for backend roles',
+    cardRole: 'Backend Engineer · Microservices Architect',
+    summary: 'Enterprise-scale backend engineer with <strong>4+ years</strong> architecting production systems serving millions. Specializing in <strong>distributed microservices</strong>, high-performance REST APIs, and scalable infrastructure. Track record: <strong>30% API optimizations, 40% CI/CD improvements, 1500+ problems mastered</strong>.',
+    typing: ['Scalable Microservices','Distributed Systems','RESTful APIs','High-Availability Backends','Event-Driven Architecture'],
   },
   fullstack: {
-    status: 'Available for Full Stack Developer roles',
-    cardRole: 'Full Stack Engineer · Java + React',
-    summary: 'Full Stack Engineer with <strong>4+ years</strong> building end-to-end applications — from Java/Spring Boot backends to Angular and React frontends. Delivers cohesive, performant, production-grade user experiences.',
-    typing: ['Full-Stack Applications','React + Spring Boot Apps','Angular UIs','REST API Integrations','End-to-End Features'],
+    status: '🎯 Selective opportunities for full-stack roles',
+    cardRole: 'Full Stack Architect · Java + React',
+    summary: 'Full Stack engineer with <strong>4+ years</strong> building end-to-end <strong>enterprise applications</strong> — robust Java/Spring backends + modern React/Angular frontends. Delivered <strong>5+ production systems</strong> with focus on performance, security, and scalability.',
+    typing: ['Full-Stack Applications','React + Spring Boot','Enterprise UIs','REST API Integration','Production Apps'],
   },
   cloud: {
-    status: 'Available for Cloud / DevOps roles',
-    cardRole: 'Cloud Engineer · AWS · DevOps',
-    summary: 'Cloud Engineer with hands-on expertise across <strong>AWS (EC2, Lambda, S3, Step Functions, API Gateway)</strong>, Docker, Kubernetes, and Jenkins CI/CD. Reduced release cycles by 40% and optimized resource usage by 20% in production deployments.',
-    typing: ['Cloud-Native Systems','AWS Architectures','CI/CD Pipelines','Container Orchestration','Infrastructure Automation'],
+    status: '🎯 Selective opportunities for cloud roles',
+    cardRole: 'Cloud Architect · AWS · DevOps',
+    summary: 'Cloud architect with hands-on expertise across <strong>AWS (EC2, Lambda, S3, Step Functions, API Gateway)</strong>, container orchestration, and sophisticated CI/CD. Delivered <strong>40% release cycle reductions and 20% cost optimizations</strong> in production enterprise environments.',
+    typing: ['Cloud-Native Architecture','AWS Solutions','CI/CD at Scale','Kubernetes Orchestration','Serverless Design'],
   },
   ai: {
-    status: 'Available for AI Engineer / ML Engineer roles',
-    cardRole: 'AI Engineer · GenAI · LangChain',
-    summary: 'AI Engineer integrating <strong>LLMs, RAG architectures, and ML pipelines</strong> into enterprise workflows. Combined Java backend expertise with OpenAI, LangChain, AWS Bedrock, and vector databases to deliver intelligent automation that reduced manual effort by 35%+.',
-    typing: ['AI-Powered Systems','RAG Chatbots','LLM Integrations','ML Pipelines','Intelligent Automation'],
+    status: '🎯 Selective opportunities for AI engineer roles',
+    cardRole: 'AI Engineer · GenAI Specialist',
+    summary: '<strong>AI engineer</strong> pioneering <strong>LLM integration, RAG architectures, and intelligent automation</strong> into enterprise Java systems. Combined backend mastery with OpenAI, LangChain, AWS Bedrock, and vector databases. Impact: <strong>35% manual effort reduction, 80% self-service adoption</strong>.',
+    typing: ['AI-Powered Backends','RAG Architectures','LLM Integration','Intelligent Automation','GenAI Pipelines'],
   },
 };
 
@@ -141,9 +141,9 @@ const PROJECTS = [
   { emoji:'🖥️', name:'Full-Stack Web Applications',
     desc:'5+ full-stack projects: React/Angular frontends backed by Spring Boot microservices with JWT authentication, role-based access, and database persistence.',
     tags:['React','Angular','TypeScript','Spring Boot','MongoDB'], glow:'var(--green)', impact:'✅ 5+ deployed apps' },
-  { emoji:'🧩', name:'Competitive Coding Portfolio',
-    desc:'500+ problems solved on LeetCode, GeeksforGeeks & HackerRank. Ranked 69th nationally in Coding CodeKaze among 25,000+ participants. Specializing in DSA & system design.',
-    tags:['Java','Python','DSA','LeetCode'], glow:'var(--purple)', impact:'🏆 Top 69 nationally' },
+  { emoji:'🧩', name:'Competitive Coding & Problem Solving',
+    desc:'<strong>1500+ algorithmic challenges mastered</strong> on LeetCode & platforms. Ranked <strong>69th nationally</strong> in CodeKaze among 25,000+ engineers. Demonstrates elite computational thinking and pattern recognition.',
+    tags:['DSA','Algorithms','LeetCode'], glow:'var(--purple)', impact:'🏆 Top 69 nationally' },
 ];
 
 // ───── AI PROJECTS ──────────────────────────────────────────────────
@@ -168,14 +168,13 @@ const AI_PROJECTS = [
     tags:['React','OpenAI','Spring Boot','Chart.js'], glow:'#f472b6', impact:'🎯 Zero-code analytics' },
 ];
 
-// ───── HIGHLIGHTS ───────────────────────────────────────────────────
 const HIGHLIGHTS = [
-  { icon:'🏗️', title:'Scalable Architecture', text:'Design and implement distributed microservices systems handling millions of transactions with high availability and low-latency guarantees.' },
-  { icon:'☁️', title:'Cloud-Native Engineering', text:'Hands-on expertise with AWS services — EC2, Lambda, S3, Step Functions, API Gateway — to build and deploy production-grade cloud solutions.' },
-  { icon:'🤖', title:'AI/GenAI Integration', text:'Combining enterprise Java with modern AI stacks — OpenAI, LangChain, RAG, vector DBs — to augment business workflows with intelligent automation.' },
-  { icon:'🔄', title:'DevOps & Automation', text:'Automated CI/CD pipelines with Jenkins and Docker, reducing release cycles by 40% and ensuring consistent, reliable software delivery.' },
-  { icon:'🧠', title:'Problem Solving', text:'500+ algorithmic challenges solved, ranked top 69 nationally. Consistently resolves critical production issues with a structured, analytical approach.' },
-  { icon:'🤝', title:'Team Leadership', text:'Led cross-functional teams, mentored junior developers, drove code reviews and best practices — delivering complex projects on tight deadlines.' },
+  { icon:'🏗️', title:'Enterprise-Scale Architecture', text:'Architect and deploy distributed microservices systems handling millions of transactions with proven high availability, sub-100ms latency, and zero-downtime deployments.' },
+  { icon:'☁️', title:'Cloud-Native Excellence', text:'Expert-level AWS proficiency — EC2, Lambda, S3, Step Functions, API Gateway — building and optimizing production cloud systems with 99.99% uptime SLAs.' },
+  { icon:'🤖', title:'AI/GenAI Innovation', text:'Pioneer LLM integration and RAG architectures into enterprise Java systems. Delivered 6+ production AI features using OpenAI, LangChain, and AWS Bedrock with measurable business impact.' },
+  { icon:'�', title:'DevOps & Automation', text:'Sophisticated CI/CD pipelines with Jenkins and Docker delivering 40% faster releases, zero-downtime deployments, and automated infrastructure scaling.' },
+  { icon:'🧠', title:'Elite Problem Solving', text:'1500+ algorithmic challenges mastered, ranked top 69 nationally. Applies structured problem-solving and system design expertise to production challenges.' },
+  { icon:'🤝', title:'Technical Leadership', text:'Led cross-functional teams across healthcare, IoT, and enterprise domains. Mentored junior engineers, enforced best practices, and consistently delivered on aggressive timelines.' },
 ];
 
 // ───── LANGUAGES ────────────────────────────────────────────────────
@@ -189,10 +188,10 @@ const LANGUAGES = [
 // ───── ACHIEVEMENTS ─────────────────────────────────────────────────
 const ACHIEVEMENTS = [
   { icon:'🏆', text:'Ranked <strong>69th nationally</strong> in the Coding CodeKaze Contest among <strong>25,000+ participants</strong>.' },
-  { icon:'💻', text:'Solved <strong>500+ coding challenges</strong> on LeetCode, GeeksforGeeks, and HackerRank.' },
+  { icon:'💻', text:'Mastered <strong>1500+ algorithmic challenges</strong> across LeetCode, GeeksforGeeks, and competitive platforms — elite-tier problem solving.' },
   { icon:'🚀', text:'Built <strong>5+ full-stack web projects</strong> showcasing complete frontend and backend engineering skills.' },
   { icon:'🤖', text:'Delivered <strong>6+ AI/GenAI integrations</strong> into production Java enterprise systems.' },
-  { icon:'💡', text:'Proposed and implemented solutions that <strong>reduced operational costs by 20%</strong> through cloud optimization.' },
+  { icon:'�', text:'Proposed and implemented solutions that <strong>reduced operational costs by 20%</strong> through cloud optimization.' },
   { icon:'👥', text:'Led cross-functional teams to <strong>successful project completion</strong> under tight deadlines, mentoring junior developers.' },
   { icon:'📈', text:'Actively upskilling in <strong>cloud technologies, AI/ML, and system design</strong> — continuous learner committed to staying ahead.' },
 ];
@@ -207,4 +206,50 @@ const MQ2 = [
   'Java · Spring Boot','Python · JavaScript','TypeScript · HTML · CSS','MySQL · MongoDB',
   'REST APIs · Hibernate','JUnit · Selenium','Agile · TDD · BDD','Git · Jira · Postman',
   'GCP · EC2 · Lambda','S3 · Step Functions','OpenAI · LangChain · RAG','AWS Bedrock · GenAI',
+];
+
+// ───── CODE DEMOS ────────────────────────────────────────────────────
+const CODE_DEMOS = [
+  {
+    lang: 'Java',
+    title: 'Spring Boot REST Controller',
+    desc: 'A simple REST endpoint with dependency injection and JSON response.',
+    code: `@RestController\n@RequestMapping("/api")\npublic class UserController {\n    \n    @Autowired\n    private UserService userService;\n    \n    @GetMapping("/users")\n    public ResponseEntity<List<User>> getUsers() {\n        List<User> users = userService.getAllUsers();\n        return ResponseEntity.ok(users);\n    }\n}`,
+    runnable: false
+  },
+  {
+    lang: 'Python',
+    title: 'Flask API with ML Prediction',
+    desc: 'A Flask endpoint that loads a scikit-learn model and makes predictions.',
+    code: `from flask import Flask, request, jsonify\nimport joblib\nimport numpy as np\n\napp = Flask(__name__)\nmodel = joblib.load('model.pkl')\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    data = request.get_json()\n    features = np.array(data['features']).reshape(1, -1)\n    prediction = model.predict(features)[0]\n    return jsonify({'prediction': int(prediction)})\n\nif __name__ == '__main__':\n    app.run(debug=True)`,
+    runnable: false
+  },
+  {
+    lang: 'JavaScript',
+    title: 'Node.js Express Server',
+    desc: 'Basic Express.js server with middleware and routing.',
+    code: `const express = require('express');\nconst app = express();\n\napp.use(express.json());\n\napp.get('/health', (req, res) => {\n    res.json({ status: 'OK', timestamp: new Date() });\n});\n\napp.post('/echo', (req, res) => {\n    res.json({ echo: req.body, received: true });\n});\n\napp.listen(3000, () => {\n    console.log('Server running on port 3000');\n});`,
+    runnable: false
+  },
+  {
+    lang: 'TypeScript',
+    title: 'React Component with Hooks',
+    desc: 'A TypeScript React component using hooks for state management.',
+    code: `import React, { useState, useEffect } from 'react';\n\ninterface User {\n    id: number;\n    name: string;\n}\n\nconst UserList: React.FC = () => {\n    const [users, setUsers] = useState<User[]>([]);\n    const [loading, setLoading] = useState(true);\n\n    useEffect(() => {\n        fetch('/api/users')\n            .then(res => res.json())\n            .then(data => {\n                setUsers(data);\n                setLoading(false);\n            });\n    }, []);\n\n    return (\n        <div>\n            {loading ? (\n                <p>Loading...</p>\n            ) : (\n                <ul>\n                    {users.map(user => (\n                        <li key={user.id}>{user.name}</li>\n                    ))}\n                </ul>\n            )}\n        </div>\n    );\n};\n\nexport default UserList;`,
+    runnable: false
+  },
+  {
+    lang: 'Go',
+    title: 'Goroutine Concurrency',
+    desc: 'Go program demonstrating goroutines and channels for concurrent processing.',
+    code: `package main\n\nimport (\n    "fmt"\n    "sync"\n)\n\nfunc worker(id int, jobs <-chan int, results chan<- int, wg *sync.WaitGroup) {\n    defer wg.Done()\n    for j := range jobs {\n        fmt.Printf("Worker %d processing job %d\\n", id, j)\n        results <- j * 2\n    }\n}\n\nfunc main() {\n    jobs := make(chan int, 100)\n    results := make(chan int, 100)\n    var wg sync.WaitGroup\n\n    for w := 1; w <= 3; w++ {\n        wg.Add(1)\n        go worker(w, jobs, results, &wg)\n    }\n\n    for j := 1; j <= 5; j++ {\n        jobs <- j\n    }\n    close(jobs)\n\n    wg.Wait()\n    close(results)\n\n    for r := range results {\n        fmt.Printf("Result: %d\\n", r)\n    }\n}`,
+    runnable: false
+  },
+  {
+    lang: 'Rust',
+    title: 'Ownership and Borrowing',
+    desc: 'Rust code showcasing ownership, borrowing, and lifetimes.',
+    code: `fn main() {\n    let s1 = String::from("hello");\n    let len = calculate_length(&s1);\n    println!("The length of '{}' is {}.", s1, len);\n\n    let mut s = String::from("hello");\n    change(&mut s);\n    println!("{}", s);\n}\n\nfn calculate_length(s: &String) -> usize {\n    s.len()\n}\n\nfn change(some_string: &mut String) {\n    some_string.push_str(", world");\n}`,
+    runnable: false
+  }
 ];

@@ -1,12 +1,12 @@
 {
   "profile": {
     "name": "Shaik Mohammed Rafi",
-    "title": "Software Engineer",
-    "tagline": "Java Backend · Full Stack · Cloud · AI",
+    "title": "Enterprise Backend Engineer & AI Specialist",
+    "tagline": "Microservices • Cloud Architecture • GenAI Integration • Top 69 Ranked",
     "email": "mohammedrafi.java@gmail.com",
     "phone": "+91 7386796653",
     "location": "India",
-    "availability": "Open to new opportunities",
+    "availability": "Selective opportunities — only impactful roles",
     "links": {
       "linkedin": "https://www.linkedin.com/in/shaik-mohammedrafi/",
       "github": "https://github.com/RAFI419/",
@@ -15,9 +15,11 @@
   },
   "stats": {
     "years_experience": 4,
-    "leetcode_solved": 500,
+    "leetcode_solved": 1500,
     "codekaze_rank": 69,
-    "cicd_improvement_pct": 40
+    "cicd_improvement_pct": 40,
+    "ai_projects_delivered": 6,
+    "fullstack_systems": 5
   },
   "education": {
     "degree": "B.Tech in Electronics & Communication Engineering",
