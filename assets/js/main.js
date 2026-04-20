@@ -572,29 +572,25 @@ async function loadProfile() {
       }));
       render();
       renderProjectFilters();
-    }
-  } catch (err) {
-    console.warn('Unable to load profile data', err);
-  }
-}
-
-render();
-initTheme();
-initVisitCounter();
-renderProjectFilters();
+      initScrollReveal();
 initButtonRipples();
 initSectionParallax();
 loadProfile();
 
 /* ── SCROLL REVEAL ──────────────────────────────────────────── */
-(() => {
+function initScrollReveal() {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
     });
   }, { threshold: .12 });
-  document.querySelectorAll('.rv, .rv-l, .rv-r, .rv-s').forEach(el => io.observe(el));
-})();
+  document.querySelectorAll('.rv:not(.in), .rv-l:not(.in), .rv-r:not(.in), .rv-s:not(.in)').forEach(el => io.observe(el));
+}
+
+initScrollReveal();
 
 /* ── SKILL + LANG BARS ──────────────────────────────────────── */
 (() => {
