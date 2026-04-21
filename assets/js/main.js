@@ -255,112 +255,112 @@ function render() {
       `).join('');
     }
 
+    // Projects
+    const projectsContainer = document.getElementById('projects-container');
+    if (projectsContainer) {
+      projectsContainer.innerHTML = PROJECTS.map((p, i) => `
+        <div class="proj-card rv d${(i%6)+1} tilt">
+          <div class="tilt-shine"></div>
+          <div class="proj-glow" style="background:radial-gradient(${p.glow},transparent)"></div>
+          <span class="proj-emoji">${p.emoji}</span>
+          <div class="proj-name">${p.name}</div>
+          <p class="proj-desc">${p.desc}</p>
+          <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
+          ${p.impact ? `<div class="proj-impact">${p.impact}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    // AI Projects
+    const aiProjectsContainer = document.getElementById('ai-projects-container');
+    if (aiProjectsContainer) {
+      aiProjectsContainer.innerHTML = AI_PROJECTS.map((p, i) => `
+        <div class="proj-card rv d${(i%6)+1} tilt">
+          <div class="tilt-shine"></div>
+          <div class="proj-glow" style="background:radial-gradient(${p.glow},transparent)"></div>
+          <span class="proj-emoji">${p.emoji}</span>
+          <div class="proj-name">${p.name}</div>
+          <p class="proj-desc">${p.desc}</p>
+          <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
+          ${p.impact ? `<div class="proj-impact">${p.impact}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Highlights
+    const highlightsContainer = document.getElementById('highlights-container');
+    if (highlightsContainer) {
+      highlightsContainer.innerHTML = HIGHLIGHTS.map((h, i) => `
+        <div class="hl-card rv d${(i%3)+1} tilt">
+          <div class="tilt-shine"></div>
+          <div class="hl-icon">${h.icon}</div>
+          <div class="hl-title">${h.title}</div>
+          <div class="hl-text">${h.text}</div>
+        </div>
+      `).join('');
+    }
+
+    // Gallery
+    const galleryContainer = document.getElementById('gallery-container');
+    if (galleryContainer && GALLERY_PHOTOS) {
+      galleryContainer.innerHTML = GALLERY_PHOTOS.map((p, i) => `
+        <div class="gallery-card tilt" data-i="${i}">
+          <img src="${p.src}" alt="${p.label}" loading="lazy"/>
+          <div class="gallery-card-label">${p.label}</div>
+        </div>
+      `).join('');
+    }
+
+    // Languages
+    const langContainer = document.getElementById('lang-container');
+    if (langContainer) {
+      langContainer.innerHTML = LANGUAGES.map(l => `
+        <div class="lang-item">
+          <div class="lang-header"><span>${l.name}</span><span class="lang-level">${l.level}</span></div>
+          <div class="lang-bar-bg"><div class="lang-bar-fill" data-w="${l.pct}" style="background:${l.grad}"></div></div>
+        </div>
+      `).join('');
+    }
+
+    // Achievements
+    const achContainer = document.getElementById('ach-container');
+    if (achContainer) {
+      achContainer.innerHTML = ACHIEVEMENTS.map(a => `
+        <div class="ach-item rv">
+          <div class="ach-icon">${a.icon}</div>
+          <div class="ach-text">${a.text}</div>
+        </div>
+      `).join('');
+    }
+
+    // Code Demos
+    const demosContainer = document.getElementById('demos-container');
+    if (demosContainer) {
+      demosContainer.innerHTML = CODE_DEMOS.map((d, i) => `
+        <div class="demo-card rv d${(i%6)+1} tilt">
+          <div class="tilt-shine"></div>
+          <div class="demo-lang">${d.lang}</div>
+          <div class="demo-title">${d.title}</div>
+          <p class="demo-desc">${d.desc}</p>
+          <pre class="demo-code language-${d.lang.toLowerCase()}"><code>${d.code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+          ${d.runnable ? '<button class="demo-run" onclick="runDemo(this)">Run</button>' : ''}
+          <div class="demo-output"></div>
+        </div>
+      `).join('');
+    }
+
+    // Marquees — duplicate for seamless loop
+    const mq1El = document.getElementById('mq1');
+    const mq2El = document.getElementById('mq2');
+    const mk1 = item => `<div class="mq-item"><span class="mq-dot"></span>${item}</div>`;
+    if (mq1El) mq1El.innerHTML = [...MQ1, ...MQ1].map(mk1).join('');
+    if (mq2El) mq2El.innerHTML = [...MQ2, ...MQ2].map(mk1).join('');
+
     console.log('✅ Render completed successfully');
   } catch (err) {
     console.error('❌ Render error:', err);
   }
 }
-
-// Projects
-const projectsContainer = document.getElementById('projects-container');
-if (projectsContainer) {
-  projectsContainer.innerHTML = PROJECTS.map((p, i) => `
-    <div class="proj-card rv d${(i%6)+1} tilt">
-      <div class="tilt-shine"></div>
-      <div class="proj-glow" style="background:radial-gradient(${p.glow},transparent)"></div>
-      <span class="proj-emoji">${p.emoji}</span>
-      <div class="proj-name">${p.name}</div>
-      <p class="proj-desc">${p.desc}</p>
-      <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
-      ${p.impact ? `<div class="proj-impact">${p.impact}</div>` : ''}
-    </div>
-  `).join('');
-}
-
-// AI Projects
-const aiProjectsContainer = document.getElementById('ai-projects-container');
-if (aiProjectsContainer) {
-  aiProjectsContainer.innerHTML = AI_PROJECTS.map((p, i) => `
-    <div class="proj-card rv d${(i%6)+1} tilt">
-      <div class="tilt-shine"></div>
-      <div class="proj-glow" style="background:radial-gradient(${p.glow},transparent)"></div>
-      <span class="proj-emoji">${p.emoji}</span>
-      <div class="proj-name">${p.name}</div>
-      <p class="proj-desc">${p.desc}</p>
-      <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
-      ${p.impact ? `<div class="proj-impact">${p.impact}</div>` : ''}
-    </div>
-  `).join('');
-}
-
-// Highlights
-const highlightsContainer = document.getElementById('highlights-container');
-if (highlightsContainer) {
-  highlightsContainer.innerHTML = HIGHLIGHTS.map((h, i) => `
-    <div class="hl-card rv d${(i%3)+1} tilt">
-      <div class="tilt-shine"></div>
-      <div class="hl-icon">${h.icon}</div>
-      <div class="hl-title">${h.title}</div>
-      <div class="hl-text">${h.text}</div>
-    </div>
-  `).join('');
-}
-
-// Gallery
-const galleryContainer = document.getElementById('gallery-container');
-if (galleryContainer && GALLERY_PHOTOS) {
-  galleryContainer.innerHTML = GALLERY_PHOTOS.map((p, i) => `
-    <div class="gallery-card tilt" data-i="${i}">
-      <img src="${p.src}" alt="${p.label}" loading="lazy"/>
-      <div class="gallery-card-label">${p.label}</div>
-    </div>
-  `).join('');
-}
-
-// Languages
-const langContainer = document.getElementById('lang-container');
-if (langContainer) {
-  langContainer.innerHTML = LANGUAGES.map(l => `
-    <div class="lang-item">
-      <div class="lang-header"><span>${l.name}</span><span class="lang-level">${l.level}</span></div>
-      <div class="lang-bar-bg"><div class="lang-bar-fill" data-w="${l.pct}" style="background:${l.grad}"></div></div>
-    </div>
-  `).join('');
-}
-
-// Achievements
-const achContainer = document.getElementById('ach-container');
-if (achContainer) {
-  achContainer.innerHTML = ACHIEVEMENTS.map(a => `
-    <div class="ach-item rv">
-      <div class="ach-icon">${a.icon}</div>
-      <div class="ach-text">${a.text}</div>
-    </div>
-  `).join('');
-}
-
-// Code Demos
-const demosContainer = document.getElementById('demos-container');
-if (demosContainer) {
-  demosContainer.innerHTML = CODE_DEMOS.map((d, i) => `
-    <div class="demo-card rv d${(i%6)+1} tilt">
-      <div class="tilt-shine"></div>
-      <div class="demo-lang">${d.lang}</div>
-      <div class="demo-title">${d.title}</div>
-      <p class="demo-desc">${d.desc}</p>
-      <pre class="demo-code language-${d.lang.toLowerCase()}"><code>${d.code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
-      ${d.runnable ? '<button class="demo-run" onclick="runDemo(this)">Run</button>' : ''}
-      <div class="demo-output"></div>
-    </div>
-  `).join('');
-}
-
-// Marquees — duplicate for seamless loop
-const mq1El = document.getElementById('mq1');
-const mq2El = document.getElementById('mq2');
-const mk1 = item => `<div class="mq-item"><span class="mq-dot"></span>${item}</div>`;
-if (mq1El) mq1El.innerHTML = [...MQ1, ...MQ1].map(mk1).join('');
-if (mq2El) mq2El.innerHTML = [...MQ2, ...MQ2].map(mk1).join('');
 
 /* ── GITHUB STATS ────────────────────────────────────────────── */
 async function fetchGitHubStats() {
@@ -573,8 +573,14 @@ async function loadProfile() {
       render();
       renderProjectFilters();
       initScrollReveal();
-initButtonRipples();
-initSectionParallax();
+      initButtonRipples();
+      initSectionParallax();
+    }
+  } catch (err) {
+    console.error('❌ loadProfile error:', err);
+  }
+}
+
 loadProfile();
 
 /* ── SCROLL REVEAL ──────────────────────────────────────────── */
